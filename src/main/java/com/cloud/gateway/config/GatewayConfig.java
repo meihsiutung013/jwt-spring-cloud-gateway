@@ -22,15 +22,7 @@ public class GatewayConfig {
                         .filters(f -> f.filter(filter))
                         .uri("lb://microservice-users"))
                 .route("microservice-users", r -> r
-                        .path("/api/users")
-                        .filters(f -> f.filter(filter))
-                        .uri("lb://microservice-users"))
-                .route("microservice-users", r -> r
                         .path("/api/sessions/**")
-                        .filters(f -> f.filter(filter))
-                        .uri("lb://microservice-users"))
-                .route("microservice-users", r -> r
-                        .path("/api/sessions")
                         .filters(f -> f.filter(filter))
                         .uri("lb://microservice-users"))
 
