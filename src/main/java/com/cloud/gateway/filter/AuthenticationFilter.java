@@ -41,6 +41,7 @@ public class AuthenticationFilter implements GatewayFilter {
 
             // If authorization header is missing, returns a 401 UNAUTHORIZED response
             if (this.isAuthMissing(request)) {
+                System.out.println("Authorization header is missing");
                 return this.onError(exchange, HttpStatus.UNAUTHORIZED);
             }
 
@@ -52,6 +53,7 @@ public class AuthenticationFilter implements GatewayFilter {
                 final String userRole = jwtService.extractRole(token);
 
                 if (userEmail == null || userRole == null) {
+                    System.out.println("userEmail or userRole is null");
                     return this.onError(exchange, HttpStatus.UNAUTHORIZED);
                 } else {
                     // Updates the request with user information extracted from the token
@@ -59,12 +61,13 @@ public class AuthenticationFilter implements GatewayFilter {
 
                     // If token is expired or the user's role is not authorized, returns a 403 FORBIDDEN response
                     if (jwtService.isTokenInvalid(token) ||!routeValidator.isRestricted.test(request)) {
+                        System.out.println("token is invalid or user role is not authorized");
                         return this.onError(exchange, HttpStatus.FORBIDDEN);
                     }
                 }
 
             } catch (Exception e) {
-                return this.onError(exchange, HttpStatus.FORBIDDEN);
+                return this.onError(exchange, HttpStatus.UNAUTHORIZED);
             }
         }
 
