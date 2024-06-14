@@ -5,8 +5,8 @@ import com.cloud.gateway.service.JwtService;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 @RefreshScope
 @RequiredArgsConstructor
 @Component
-public class AuthenticationFilter implements GatewayFilter {
+public class AuthenticationFilter implements GlobalFilter {
 
     private final RouteValidator routeValidator;
     private final JwtService jwtService;

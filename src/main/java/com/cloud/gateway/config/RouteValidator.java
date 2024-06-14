@@ -8,10 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-/*
- * This class checks if a given request should be secured or not,
- * based on predefined open API endpoints
- */
 @Component
 public class RouteValidator {
 
