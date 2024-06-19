@@ -19,6 +19,9 @@ public class RouteValidator {
             "/api/sessions", "POST",
             "/api/users", "POST",
 
+            // microservice-analyses
+            "/api/analyses", "POST",
+
             // microservice-tests
             "/api/tests/all", "GET"
     );
