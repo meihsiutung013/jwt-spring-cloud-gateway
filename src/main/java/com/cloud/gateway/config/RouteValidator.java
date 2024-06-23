@@ -18,12 +18,13 @@ public class RouteValidator {
             // microservice-users
             "/api/sessions", "POST",
             "/api/users", "POST",
+            "/api/users/current", "GET",
 
             // microservice-analyses
             "/api/analyses", "POST",
 
             // microservice-recommendations
-            "/api/recommendations", "POST"
+            "/api/recommendations", "GET,POST"
     );
 
     /*
@@ -31,9 +32,13 @@ public class RouteValidator {
      */
     public static final List<Endpoint> authEndpoints = List.of(
             // microservice-users
-            new Endpoint("/api/users", "DELETE", "USER"),
-            new Endpoint("/api/users", "GET", "USER"),
-            new Endpoint("/api/users", "PUT", "USER")
+            // GET /api/users/{userId}
+            // PUT /api/users/{userId}
+            // DELETE /api/users/{userId}
+            new Endpoint("/api/users/", "*", "USER"),
+
+            // microservice-analyses
+            new Endpoint("/api/analyses", "GET", "USER")
     );
 
     /*
@@ -46,7 +51,7 @@ public class RouteValidator {
             .entrySet()
             .stream()
             .noneMatch(entry -> request.getURI().getPath().contains(entry.getKey())
-                && (entry.getValue().equals("*") || request.getMethod().name().equalsIgnoreCase(entry.getValue()))
+                && (entry.getValue().equals("*") || entry.getValue().contains(request.getMethod().name()))
             );
 
     /*
@@ -60,7 +65,7 @@ public class RouteValidator {
                     .anyMatch(endpoint ->
                             request.getURI().getPath().contains(endpoint.getPath())
                             && (endpoint.getMethod().equals("*")
-                                || request.getMethod().name().equalsIgnoreCase(endpoint.getMethod()))
+                                || endpoint.getMethod().contains(request.getMethod().name()))
                             && (request.getHeaders().getOrEmpty("role").get(0).equals("ADMIN")
                                 || request.getHeaders().getOrEmpty("role").get(0).equals(endpoint.getRole()))
                     );

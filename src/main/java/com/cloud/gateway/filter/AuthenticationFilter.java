@@ -32,12 +32,11 @@ public class AuthenticationFilter implements GlobalFilter {
             GatewayFilterChain chain
     ) {
 
-        System.out.println("Gateway: AuthenticationFilter");
-
         ServerHttpRequest request = exchange.getRequest();
 
         // Checks if the route requires authentication
         if (routeValidator.isProtected.test(request)) {
+            System.out.println(request.getURI().getPath() + " is protected");
 
             // If authorization header is missing, returns a 401 UNAUTHORIZED response
             if (this.isAuthMissing(request)) {
@@ -66,6 +65,7 @@ public class AuthenticationFilter implements GlobalFilter {
 
                     // If user's role is not authorized, returns a 403 FORBIDDEN response
                     if (!routeValidator.isRestricted.test(request)) {
+                        System.out.println(request.getURI().getPath() + " is restricted");
                         System.out.printf("user role %s is not authorized%n", userRole);
                         System.out.printf("request path: %s%n", request.getURI().getPath());
                         System.out.printf("request method: %s%n", request.getMethod().name());
