@@ -23,10 +23,7 @@ public class RouteValidator {
             "/api/analyses", "POST",
 
             // microservice-recommendations
-            "/api/recommendations", "POST",
-
-            // microservice-tests
-            "/api/tests/all", "GET"
+            "/api/recommendations", "POST"
     );
 
     /*
@@ -34,10 +31,8 @@ public class RouteValidator {
      */
     public static final List<Endpoint> authEndpoints = List.of(
             // microservice-users
-
-            // microservice-tests
-            new Endpoint("/api/tests/user", "GET", "USER"),
-            new Endpoint("/api/tests/admin", "GET", "ADMIN")
+            new Endpoint("/api/users", "GET", "USER"),
+            new Endpoint("/api/users", "PUT", "USER")
     );
 
     /*
@@ -61,7 +56,8 @@ public class RouteValidator {
     public Predicate<ServerHttpRequest> isRestricted =
             request -> authEndpoints
                     .stream()
-                    .anyMatch(endpoint -> request.getURI().getPath().contains(endpoint.getPath())
+                    .anyMatch(endpoint ->
+                            request.getURI().getPath().contains(endpoint.getPath())
                             && (endpoint.getMethod().equals("*")
                                 || request.getMethod().name().equalsIgnoreCase(endpoint.getMethod()))
                             && (request.getHeaders().getOrEmpty("role").get(0).equals("ADMIN")

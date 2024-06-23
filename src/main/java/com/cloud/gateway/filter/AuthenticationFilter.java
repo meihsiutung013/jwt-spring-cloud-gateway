@@ -59,14 +59,23 @@ public class AuthenticationFilter implements GlobalFilter {
                     // Updates the request with user information extracted from the token
                     this.updateRequest(exchange, token);
 
-                    // If token is expired or the user's role is not authorized, returns a 403 FORBIDDEN response
-                    if (jwtService.isTokenInvalid(token) ||!routeValidator.isRestricted.test(request)) {
-                        System.out.println("token is invalid or user role is not authorized");
+                    if (jwtService.isTokenInvalid(token)) {
+                        System.out.println("token is invalid");
+                        return this.onError(exchange, HttpStatus.FORBIDDEN);
+                    }
+
+                    // If user's role is not authorized, returns a 403 FORBIDDEN response
+                    if (!routeValidator.isRestricted.test(request)) {
+                        System.out.printf("user role %s is not authorized%n", userRole);
+                        System.out.printf("request path: %s%n", request.getURI().getPath());
+                        System.out.printf("request method: %s%n", request.getMethod().name());
+                        System.out.printf("request role header: %s%n", request.getHeaders().getOrEmpty("role").get(0));
                         return this.onError(exchange, HttpStatus.FORBIDDEN);
                     }
                 }
 
             } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
                 return this.onError(exchange, HttpStatus.UNAUTHORIZED);
             }
         }
