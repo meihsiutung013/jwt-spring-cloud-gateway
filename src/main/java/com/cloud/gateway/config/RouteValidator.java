@@ -31,9 +31,9 @@ public class RouteValidator {
      */
     public static final List<Endpoint> authEndpoints = List.of(
             // microservice-users
+            new Endpoint("/api/users", "DELETE", "USER"),
             new Endpoint("/api/users", "GET", "USER"),
-            new Endpoint("/api/users", "PUT", "USER"),
-            new Endpoint("/api/users", "DELETE", "USER")
+            new Endpoint("/api/users", "PUT", "USER")
     );
 
     /*
