@@ -1,0 +1,7 @@
+eureka:
+  instance:
+    preferIpAddress: false
+    non-secure-port-enabled: true
+    secure-port-enabled: false
+    non-secure-port: ${server.port}
+    secure-port: 443
