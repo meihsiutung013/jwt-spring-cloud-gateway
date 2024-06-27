@@ -17,6 +17,7 @@ public class RouteValidator {
     public static final Map<String, String> noAuthEndpoints = Map.of(
             // microservice-users
             "/api/sessions", "POST",
+            "/api/sessions/new", "POST",
             "/api/users", "POST",
             "/api/users/current", "GET",
 
